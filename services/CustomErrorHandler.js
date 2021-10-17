@@ -9,6 +9,10 @@ class CustomErrorhandler extends Error {
     static alreadyExists(message) {
         return new CustomErrorhandler(409, message);
     }
+
+    static phoneNotFound(message) {
+        return new CustomErrorhandler(409, message);
+    }
 }
 
 

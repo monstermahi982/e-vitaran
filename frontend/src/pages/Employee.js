@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -14,6 +15,42 @@ import ListItemButton from '@mui/material/ListItemButton';
 import AddIcon from '@mui/icons-material/Add';
 
 const Employee = () => {
+
+    const URL = 'http://localhost:5000/api'
+    const [data, setData] = useState([]);
+    const [user, setUser] = useState();
+    const [newBill, setNewBill] = useState(0);
+    const [search, setSearch] = useState('');
+
+    const userList = async () => {
+        const data = await axios.get(URL + '/users');
+
+        setData(data.data);
+    }
+
+    const fetchUser = async (id) => {
+        const data = await axios.get(URL + '/user/' + id);
+        setUser(data.data);
+    }
+
+    const addNewBill = async (id) => {
+        if (newBill === 0) {
+            console.log("no changes");
+            setUser('');
+        } else {
+            await axios.put(URL + '/user-bill/' + user._id, {
+                'bill_unit': newBill
+            });
+            setNewBill(0);
+            setUser('');
+        }
+
+    }
+
+    useEffect(() => {
+        userList();
+    })
+
     return (
         <div style={{ minHeight: '100vh', backgroundImage: 'url("https://source.unsplash.com/1600x900/?current,bulb")', opacity: 0.5, zIndex: -1 }}>
 
@@ -30,21 +67,27 @@ const Employee = () => {
                             <List dense={true} sx={{ width: '100%', bgcolor: 'background.paper', borderRadius: 5 }}>
                                 <ListItemButton>
                                     <FormControl fullWidth sx={{ py: 1 }}>
-                                        <TextField id="phone" label="SEARCH" variant="outlined" />
+                                        <TextField id="phone" onChange={(e) => setSearch(e.target.value)} label="SEARCH ADDRESS" variant="outlined" />
                                     </FormControl>
                                 </ListItemButton>
-                                <ListItem
-                                    secondaryAction={
-                                        <IconButton edge="end" aria-label="add" onClick={() => { }}>
-                                            <AddIcon color="error" />
-                                        </IconButton>
-                                    }
-                                >
-                                    <ListItemText
-                                        primary="1234567890"
-                                        secondary="Mahesh Gaikwad"
-                                    />
-                                </ListItem>
+                                {
+                                    data.filter(filterData => filterData.address.includes(search)).map((value) => (
+                                        <ListItem
+                                            key={value._id}
+                                            secondaryAction={
+                                                <IconButton edge="end" aria-label="add" onClick={() => fetchUser(value._id)}>
+                                                    <AddIcon color="error" />
+                                                </IconButton>
+                                            }
+                                        >
+                                            <ListItemText
+                                                primary={value.phone}
+                                                secondary={value.name}
+                                            />
+                                        </ListItem>
+                                    ))
+                                }
+
                             </List>
                         </Box>
                     </Grid>
@@ -60,29 +103,36 @@ const Employee = () => {
                                     </ListSubheader>
                                 }
                             >
-                                <ListItemButton>
-                                    <ListItemText sx={{ textAlign: 'center' }} primary="Mahesh Gaikwad" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText sx={{ textAlign: 'center' }} primary=" mahesh@gmail.com" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText sx={{ textAlign: 'center' }} primary="12345667889" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText sx={{ textAlign: 'center' }} primary="ADDRESS :- aklai nagar, aklij" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <ListItemText sx={{ textAlign: 'center' }} primary="PREVIOUS UNIT :- 45" />
-                                </ListItemButton>
-                                <ListItemButton>
-                                    <FormControl fullWidth sx={{ py: 1 }}>
-                                        <TextField id="phone" label="NEW UNIT" variant="outlined" />
-                                    </FormControl>
-                                </ListItemButton>
-                                <FormControl style={{ display: 'grid', justifyContent: 'center' }}>
-                                    <Button variant="outlined" color="success">SUBMIT</Button>
-                                </FormControl>
+
+                                {user ?
+
+                                    <div>
+                                        <ListItemButton>
+                                            <ListItemText sx={{ textAlign: 'center' }} primary={user.name} />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <ListItemText sx={{ textAlign: 'center' }} primary={user.email} />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <ListItemText sx={{ textAlign: 'center' }} primary={user.phone} />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <ListItemText sx={{ textAlign: 'center' }} primary={user.address} secondary="ADDRESS" />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <ListItemText sx={{ textAlign: 'center' }} primary={user.bill_unit} secondary="PREVIOUS UNIT" />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <FormControl fullWidth sx={{ py: 1 }}>
+                                                <TextField onChange={(e) => setNewBill(e.target.value)} id="phone" label="NEW UNIT" variant="outlined" />
+                                            </FormControl>
+                                        </ListItemButton>
+                                        <FormControl style={{ display: 'grid', justifyContent: 'center' }}>
+                                            <Button onClick={addNewBill} variant="outlined" color="success">SUBMIT</Button>
+                                        </FormControl>
+                                    </div>
+
+                                    : 'nothing to show'}
 
                             </List>
                         </Box>

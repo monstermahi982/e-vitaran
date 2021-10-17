@@ -24,6 +24,7 @@ import DraftsIcon from '@mui/icons-material/Drafts';
 import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import axios from 'axios'
 
 function createData(Vitaran_Type, price) {
     return { Vitaran_Type, price };
@@ -39,12 +40,28 @@ const rows = [
 
 const PayBill = () => {
 
+    const URL = 'http://localhost:5000/api';
     const [open, setOpen] = React.useState(false);
     const [billShow, setbillShow] = React.useState(false)
+    const [phone, setPhone] = React.useState();
+    const [user, setUser] = React.useState();
 
     const handleClick = () => {
         setOpen(!open);
     };
+
+    const fetchBill = async () => {
+        if (!phone) {
+            return;
+        }
+        const data = await axios.get(URL + '/fetch-bill/' + phone);
+        console.log(data);
+        setUser(data.data);
+        setbillShow(true)
+        setPhone();
+    }
+
+
     return (
         <div className="paybill" style={{ minHeight: '100vh', backgroundImage: 'url("https://source.unsplash.com/1600x900/?current,bulb")', opacity: 0.5, zIndex: -1 }}>
             <Box sx={{ width: '100%' }}>
@@ -57,11 +74,11 @@ const PayBill = () => {
                             <Box sx={{ p: 1 }} style={{ margin: '20px' }}>
 
                                 <FormControl fullWidth sx={{ py: 1 }}>
-                                    <TextField id="phone" label="Phone" variant="outlined" />
+                                    <TextField type="number" id="phone" onChange={(e) => setPhone(e.target.value)} label="Phone" variant="outlined" />
                                 </FormControl>
 
                                 <FormControl fullWidth sx={{ py: 1 }}>
-                                    <Button onClick={() => setbillShow(!billShow)} varient="outlined" color="success">CHECK</Button>
+                                    <Button onClick={fetchBill} varient="outlined" color="success">CHECK</Button>
                                 </FormControl>
                             </Box>
 
@@ -84,19 +101,19 @@ const PayBill = () => {
                                             <ListItemIcon>
                                                 <SendIcon />
                                             </ListItemIcon>
-                                            <ListItemText primary="Name :- Mahesh Gaikwad" />
+                                            <ListItemText secondary="Name" primary={user.name} />
                                         </ListItemButton>
                                         <ListItemButton>
                                             <ListItemIcon>
                                                 <DraftsIcon />
                                             </ListItemIcon>
-                                            <ListItemText primary="Email :- mahesh@gmail.com" />
+                                            <ListItemText secondary="Email" primary={user.email} />
                                         </ListItemButton>
                                         <ListItemButton>
                                             <ListItemIcon>
                                                 <DraftsIcon />
                                             </ListItemIcon>
-                                            <ListItemText primary="Phone :- 1234567890" />
+                                            <ListItemText secondary="Phone" primary={user.phone} />
                                         </ListItemButton>
                                         <ListItemButton onClick={handleClick}>
                                             <ListItemIcon>
@@ -136,12 +153,19 @@ const PayBill = () => {
                                             <ListItemIcon>
                                                 <DraftsIcon />
                                             </ListItemIcon>
-                                            <ListItemText primary="Price :- 345" />
+                                            <ListItemText secondary="Bill Unit" primary={user.bill_unit} />
+                                        </ListItemButton>
+                                        <ListItemButton>
+                                            <ListItemIcon>
+                                                <DraftsIcon />
+                                            </ListItemIcon>
+                                            <ListItemText secondary="Bill Status" primary={user.bill_status} />
                                         </ListItemButton>
                                     </List>
                                     <FormControl fullWidth sx={{ py: 1 }}>
                                         <Button varient="outlined" color="secondary">PAY BILL</Button>
                                     </FormControl>
+
                                 </Box>
                                 :
                                 " "

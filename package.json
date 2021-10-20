@@ -1,21 +1,24 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "description": "",
+  "description": "e-vitaran website for electricity bill transactions",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -r esm server.js"
+    "start": "nodemon -r esm server.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mahesh Gaikwad",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^10.0.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "joi": "^17.4.2",
-    "mongoose": "^6.0.11"
+    "mongoose": "^6.0.11",
+    "razorpay": "^2.0.7"
   }
 }

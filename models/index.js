@@ -1,2 +1,5 @@
 export { default as User } from './users'
 export { default as Employee } from './employee'
+export { default as BillUnit } from './billUnit'
+export { default as PaymentDetail } from './paymentDetail'
+export { default as Admin } from './admin'

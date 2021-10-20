@@ -43,7 +43,7 @@ const Employee = () => {
             data = await axios.get(URL + '/users');
         } catch (error) {
             setReferesh(!referesh)
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         if (data !== '') {
             setData(data.data);
@@ -56,7 +56,7 @@ const Employee = () => {
             data = await axios.get(URL + '/user/' + id);
         } catch (error) {
             setReferesh(!referesh)
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         if (data !== '') {
             setUser(data.data);
@@ -74,7 +74,7 @@ const Employee = () => {
                 });
             } catch (error) {
                 setReferesh(!referesh)
-                alert("error occured", error)
+                // alert("error occured", error)
             }
             setNewBill(0);
             setUser('');

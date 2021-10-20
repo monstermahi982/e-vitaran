@@ -37,7 +37,7 @@ const Home = () => {
         try {
             data = await axios.post(URL + '/validate-employee', email)
         } catch (error) {
-            alert("error " + error)
+            // alert("error " + error)
             return;
         }
         console.log(data.data);
@@ -58,7 +58,7 @@ const Home = () => {
         try {
             data = await axios.post(URL + '/validate-admin', email)
         } catch (error) {
-            alert("error " + error)
+            // alert("error " + error)
             return;
         }
         if (data.data === true) {

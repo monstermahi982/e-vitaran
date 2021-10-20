@@ -40,7 +40,7 @@ const Transaction = () => {
         try {
             data = await axios.get(URL + '/transactions');
         } catch (error) {
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         if (data !== '') {
             setAllTransaction(data.data);
@@ -52,7 +52,7 @@ const Transaction = () => {
         try {
             data = await axios.get(URL + '/transaction/' + id);
         } catch (error) {
-            alert("error occured", error)
+            // alert("error occured", error)
         }
 
         if (data !== '') {

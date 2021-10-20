@@ -62,7 +62,7 @@ const AddEmployee = () => {
         } catch (error) {
             setReferesh(!referesh)
             setProgress(false)
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         setReferesh(!referesh)
         setChange(!change);
@@ -75,7 +75,7 @@ const AddEmployee = () => {
             data = await axios.get(URL + "/employees");
         } catch (error) {
             setReferesh(!referesh)
-            alert("error occured", error)
+            // alert("error occured", error)
         }
 
         if (data !== '') {
@@ -95,7 +95,7 @@ const AddEmployee = () => {
             await axios.delete(URL + "/employee/" + id);
         } catch (error) {
             setReferesh(!referesh)
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         setReferesh(!referesh)
         setChange(!change);

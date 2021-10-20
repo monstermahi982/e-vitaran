@@ -50,7 +50,7 @@ const NewConn = () => {
         try {
             await axios.post(URL + '/user', value)
         } catch (error) {
-            alert("error " + error)
+            // alert("error " + error)
         }
         setName('');
         setEmail('');

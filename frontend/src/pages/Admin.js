@@ -29,6 +29,10 @@ const Admin = () => {
         history.push('/transaction')
     }
 
+    const goAddAdmin = () => {
+        history.push('/add-admin')
+    }
+
 
     return (
         <div className="admin" >
@@ -50,22 +54,22 @@ const Admin = () => {
             <Box sx={{ width: '100%', py: 5 }}>
                 <h3 sx={{}} style={{ textAlign: 'center', letterSpacing: 6, fontSize: 30 }}>ACTIONS :-</h3>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xs={12} sm={4} sx={{ py: 5 }}>
+                    <Grid item xs={12} sm={6} sx={{ py: 5 }}>
                         <Box sx={{ width: "100%" }} style={{ display: 'grid', justifyContent: 'center' }}>
                             <Button onClick={goEmployee} variant="contained" style={{ width: '100%', fontSize: 30 }}>Employess</Button>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} sm={4} sx={{ py: 5 }} >
+                    <Grid item xs={12} sm={6} sx={{ py: 5 }} >
                         <Box sx={{ width: "100%" }} style={{ display: 'grid', justifyContent: 'center' }}>
                             <Button onClick={goTrans} variant="contained" style={{ width: '100%', fontSize: 30 }}>Transactions</Button>
                         </Box>
                     </Grid>
-                    {/* <Grid item xs={12} sm={4} sx={{ py: 5 }} >
+                    <Grid item xs={12} sm={6} sx={{ py: 5 }} >
                         <Box sx={{ width: "100%" }} style={{ display: 'grid', justifyContent: 'center' }}>
-                            <Button variant="contained" style={{ width: '100%', fontSize: 30 }}>Reports</Button>
+                            <Button onClick={goAddAdmin} variant="contained" style={{ width: '100%', fontSize: 30 }}>Add Admins</Button>
                         </Box>
-                    </Grid> */}
-                    <Grid item xs={12} sm={4} sx={{ py: 5 }}>
+                    </Grid>
+                    <Grid item xs={12} sm={6} sx={{ py: 5 }}>
                         <Box sx={{ width: "100%" }} style={{ display: 'grid', justifyContent: 'center' }}>
                             <Button onClick={goBillValues} variant="contained" style={{ width: '100%', fontSize: 30 }}>Bill Values</Button>
                         </Box>

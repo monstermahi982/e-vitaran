@@ -78,7 +78,7 @@ const ConsumptionCalculator = () => {
             data = await axios.get(URL + '/bill-info');
         } catch (error) {
             setReferesh(!referesh)
-            alert("error occured" + error)
+            // alert("error occured" + error)
         }
         if (data !== '') {
             setBillDetail(data.data)

@@ -75,7 +75,7 @@ const PayBill = () => {
             data = await axios.get(URL + '/fetch-bill/' + phone);
         } catch (error) {
             setProgress(false)
-            alert("error occured", error)
+            // alert("error occured", error)
         }
 
         console.log(data);
@@ -97,7 +97,7 @@ const PayBill = () => {
         try {
             data = await axios.get(URL + '/bill-info')
         } catch (error) {
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         // calcu dist
         const energyCharges = billCal(unit, data.data.rangeA, data.data.rangeB, data.data.rangeC, data.data.rangeD, data.data.rangeE);
@@ -178,7 +178,7 @@ const PayBill = () => {
         );
 
         if (!res) {
-            alert('Razorpay SDK failed to load. Are you online?');
+            // alert('Razorpay SDK failed to load. Are you online?');
             return;
         }
 
@@ -193,10 +193,10 @@ const PayBill = () => {
         try {
             result = await axios.post(URL + '/make-payment', data);
         } catch (error) {
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         if (!result) {
-            alert('Server error. Are you online?');
+            // alert('Server error. Are you online?');
             return;
         }
 

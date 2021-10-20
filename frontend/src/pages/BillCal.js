@@ -38,7 +38,7 @@ const BillCal = () => {
             data = await axios.get(URL + '/bill-info');
         } catch (error) {
             setReferesh(!refersh)
-            alert("error occured" + error)
+            // alert("error occured" + error)
         }
         if (data !== '') {
             setBillDetail(data.data)

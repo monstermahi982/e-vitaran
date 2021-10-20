@@ -58,7 +58,7 @@ const BillValues = () => {
         try {
             await axios.put(URL + '/bill-info', detail);
         } catch (error) {
-            alert("catch is occured");
+            // alert("catch is occured");
         }
         setShowForm(false);
         setChange(!change);
@@ -74,7 +74,7 @@ const BillValues = () => {
         try {
             data = await axios.get(URL + "/bill-info");
         } catch (error) {
-            alert("error occured", error)
+            // alert("error occured", error)
         }
         setAllDetail(data.data);
         setFixed(data.data.fixedCharge);

@@ -29,6 +29,7 @@ import { useHistory } from 'react-router-dom'
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { variables } from '../config'
 
 const ConsumptionCalculator = () => {
     function valuetext(value) {
@@ -36,7 +37,7 @@ const ConsumptionCalculator = () => {
     }
 
     const history = useHistory();
-    const URL = "http://localhost:5000/api"
+    const URL = variables.URL
     const [bulbH, setBulbH] = React.useState('');
     const [tvH, setTvH] = React.useState('');
     const [fanH, setFanH] = React.useState('');

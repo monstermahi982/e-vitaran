@@ -13,34 +13,69 @@ import IconButton from '@mui/material/IconButton';
 import ListSubheader from '@mui/material/ListSubheader';
 import ListItemButton from '@mui/material/ListItemButton';
 import AddIcon from '@mui/icons-material/Add';
+import { useHistory } from 'react-router-dom'
+import { variables } from '../config'
 
 const Employee = () => {
 
-    const URL = 'http://localhost:5000/api'
+    const history = useHistory();
+    const URL = variables.URL
     const [data, setData] = useState([]);
     const [user, setUser] = useState();
     const [newBill, setNewBill] = useState(0);
     const [search, setSearch] = useState('');
+    const [referesh, setReferesh] = useState(true)
+
+
+    const session = sessionStorage.getItem('status');
+    if (session !== 'employee') {
+        history.push('/')
+    }
+
+    const logout = () => {
+        sessionStorage.clear();
+        history.push('/')
+    }
 
     const userList = async () => {
-        const data = await axios.get(URL + '/users');
-
-        setData(data.data);
+        let data = '';
+        try {
+            data = await axios.get(URL + '/users');
+        } catch (error) {
+            setReferesh(!referesh)
+            alert("error occured", error)
+        }
+        if (data !== '') {
+            setData(data.data);
+        }
     }
 
     const fetchUser = async (id) => {
-        const data = await axios.get(URL + '/user/' + id);
-        setUser(data.data);
+        let data;
+        try {
+            data = await axios.get(URL + '/user/' + id);
+        } catch (error) {
+            setReferesh(!referesh)
+            alert("error occured", error)
+        }
+        if (data !== '') {
+            setUser(data.data);
+        }
     }
 
     const addNewBill = async (id) => {
         if (newBill === 0) {
-            console.log("no changes");
             setUser('');
         } else {
-            await axios.put(URL + '/user-bill/' + user._id, {
-                'bill_unit': newBill
-            });
+
+            try {
+                await axios.put(URL + '/user-bill/' + user._id, {
+                    'bill_unit': newBill
+                });
+            } catch (error) {
+                setReferesh(!referesh)
+                alert("error occured", error)
+            }
             setNewBill(0);
             setUser('');
         }
@@ -49,14 +84,13 @@ const Employee = () => {
 
     useEffect(() => {
         userList();
-    })
+    }, [referesh])
 
     return (
-        <div style={{ minHeight: '100vh', backgroundImage: 'url("https://source.unsplash.com/1600x900/?current,bulb")', opacity: 0.5, zIndex: -1 }}>
+        <div className="admin">
 
             <Box sx={{ py: 3 }}>
-                <Button variant="contained" color="error" style={{ position: 'absolute', right: 50, top: 10 }} >Logout</Button>
-                <Button variant="contained" style={{ position: 'absolute', left: 50, top: 10 }} >Home</Button>
+                <Button onClick={logout} variant="contained" color="error" style={{ position: 'absolute', right: 50, top: 10 }} >Logout</Button>
             </Box>
             <Box sx={{ width: '100%' }}>
 
@@ -67,11 +101,11 @@ const Employee = () => {
                             <List dense={true} sx={{ width: '100%', bgcolor: 'background.paper', borderRadius: 5 }}>
                                 <ListItemButton>
                                     <FormControl fullWidth sx={{ py: 1 }}>
-                                        <TextField id="phone" onChange={(e) => setSearch(e.target.value)} label="SEARCH ADDRESS" variant="outlined" />
+                                        <TextField id="area" onChange={(e) => setSearch(e.target.value)} label="SEARCH AREA" variant="outlined" />
                                     </FormControl>
                                 </ListItemButton>
                                 {
-                                    data.filter(filterData => filterData.address.includes(search)).map((value) => (
+                                    data.filter(filterData => filterData.area.includes(search)).map((value) => (
                                         <ListItem
                                             key={value._id}
                                             secondaryAction={
@@ -123,6 +157,9 @@ const Employee = () => {
                                             <ListItemText sx={{ textAlign: 'center' }} primary={user.bill_unit} secondary="PREVIOUS UNIT" />
                                         </ListItemButton>
                                         <ListItemButton>
+                                            <ListItemText sx={{ textAlign: 'center' }} primary={user.area} secondary="AREA" />
+                                        </ListItemButton>
+                                        <ListItemButton>
                                             <FormControl fullWidth sx={{ py: 1 }}>
                                                 <TextField onChange={(e) => setNewBill(e.target.value)} id="phone" label="NEW UNIT" variant="outlined" />
                                             </FormControl>
@@ -132,7 +169,9 @@ const Employee = () => {
                                         </FormControl>
                                     </div>
 
-                                    : 'nothing to show'}
+                                    :
+                                    <h3 style={{ textAlign: 'center' }}>No User Selected</h3>
+                                }
 
                             </List>
                         </Box>

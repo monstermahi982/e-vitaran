@@ -12,11 +12,12 @@ import ListSubheader from '@mui/material/ListSubheader';
 import ListItemButton from '@mui/material/ListItemButton';
 import AddIcon from '@mui/icons-material/Add';
 import { useHistory } from 'react-router-dom'
+import { variables } from '../config'
 
 const Transaction = () => {
 
     const history = useHistory();
-    const URL = 'http://localhost:5000/api'
+    const URL = variables.URL
     const [allTransaction, setAllTransaction] = useState([]);
     const [transaction, setTransaction] = useState();
 

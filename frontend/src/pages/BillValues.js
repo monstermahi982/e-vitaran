@@ -15,7 +15,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import { variables } from '../config'
 
 const BillValues = () => {
     const [fixed, setFixed] = React.useState('');
@@ -29,9 +29,18 @@ const BillValues = () => {
     const [showForm, setShowForm] = React.useState(false);
     const [allDetail, setAllDetail] = React.useState([]);
     const [change, setChange] = React.useState(true);
-    const URL = 'http://localhost:5000/api'
+    const URL = variables.URL
     const history = useHistory();
 
+    const session = sessionStorage.getItem('status');
+    if (session !== 'admin') {
+        history.push('/')
+    }
+
+    const logout = () => {
+        sessionStorage.clear();
+        history.push('/')
+    }
 
     const updateBillInfo = async () => {
 
@@ -89,10 +98,10 @@ const BillValues = () => {
 
 
     return (
-        <div style={{ minHeight: '100vh', backgroundImage: 'url("https://source.unsplash.com/1600x900/?current,bulb")', opacity: 0.5, zIndex: -1 }}>
+        <div className="billvalues">
 
             <Box sx={{ py: 3 }}>
-                <Button variant="contained" color="error" style={{ position: 'absolute', right: 50, top: 10 }} >Logout</Button>
+                <Button onClick={logout} variant="contained" color="error" style={{ position: 'absolute', right: 50, top: 10 }} >Logout</Button>
                 <Button onClick={goBack} variant="contained" style={{ position: 'absolute', left: 50, top: 10 }} >Back</Button>
             </Box>
             <Box sx={{ width: '100%', borderRadius: 5 }}>
@@ -125,7 +134,7 @@ const BillValues = () => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                rangeA
+                                                0 - 100 units
                                             </TableCell>
                                             <TableCell align="right">{allDetail.rangeA}</TableCell>
                                         </TableRow>
@@ -134,7 +143,7 @@ const BillValues = () => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                rangeB
+                                                101 - 300 units
                                             </TableCell>
                                             <TableCell align="right">{allDetail.rangeB}</TableCell>
                                         </TableRow>
@@ -143,7 +152,7 @@ const BillValues = () => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                rangeC
+                                                301 - 500 units
                                             </TableCell>
                                             <TableCell align="right">{allDetail.rangeC}</TableCell>
                                         </TableRow>
@@ -152,7 +161,7 @@ const BillValues = () => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                rangeD
+                                                501 - 1000 units
                                             </TableCell>
                                             <TableCell align="right">{allDetail.rangeD}</TableCell>
                                         </TableRow>
@@ -161,7 +170,7 @@ const BillValues = () => {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                rangeE
+                                                more than 1000 units
                                             </TableCell>
                                             <TableCell align="right">{allDetail.rangeE}</TableCell>
                                         </TableRow>

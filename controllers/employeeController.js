@@ -32,6 +32,19 @@ const employeeController = {
         res.json({ documents });
     },
 
+    async validateEmployee(req, res, next) {
+
+        let documents;
+
+        try {
+            documents = await Employee.exists({ email: req.body.email });
+        } catch (error) {
+            return next(error);
+        }
+
+        res.json(documents)
+    },
+
     // deleteing Employee
     async deleteEmployee(req, res, next) {
 

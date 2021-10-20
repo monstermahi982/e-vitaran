@@ -3,15 +3,42 @@ import { PaymentDetail, User } from '../models'
 import Joi, { number } from 'joi'
 import crypto from 'crypto'
 import Razorpay from 'razorpay'
+import { RAZORPAY_KEY, RAZORPAY_SECRET } from '../config'
 
 const paymentController = {
+
+    async allTransactions(req, res, next) {
+
+        let documents;
+
+        try {
+            documents = await PaymentDetail.find().select('-updatedAt -__v').sort({ _id: -1 });
+        } catch (error) {
+            return next(error);
+        }
+
+        res.json(documents);
+    },
+
+    async getOneTransaction(req, res, next) {
+
+        let documents;
+
+        try {
+            documents = await PaymentDetail.findOne({ _id: req.params.id }).select('-updatedAt -__v');
+        } catch (error) {
+            return next(error);
+        }
+
+        res.json(documents);
+    },
 
     async doPayment(req, res, next) {
 
         try {
             const instance = new Razorpay({
-                key_id: 'rzp_test_mmO5jMIFS0U6ac', // YOUR RAZORPAY KEY
-                key_secret: 'Qzi7KB9RAPfBoBbV8Ga8PabB', // YOUR RAZORPAY SECRET
+                key_id: RAZORPAY_KEY, // YOUR RAZORPAY KEY
+                key_secret: RAZORPAY_SECRET, // YOUR RAZORPAY SECRET
             });
 
             let amount = parseInt(req.body.amount);
@@ -47,7 +74,7 @@ const paymentController = {
                 payment
             } = req.body;
 
-            const shasum = crypto.createHmac('sha256', 'Qzi7KB9RAPfBoBbV8Ga8PabB');
+            const shasum = crypto.createHmac('sha256', RAZORPAY_SECRET);
             shasum.update(`${orderCreationId}|${razorpayPaymentId}`);
             const digest = shasum.digest('hex');
 
@@ -87,7 +114,6 @@ const paymentController = {
                 paymentId: razorpayPaymentId,
             });
         } catch (error) {
-            console.log("this is internal error1");
             res.status(500).send(error);
         }
     }

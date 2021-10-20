@@ -125,7 +125,8 @@ const userController = {
             name: Joi.string().max(30).min(3),
             email: Joi.string().email(),
             phone: Joi.number(),
-            address: Joi.string().max(50).min(3)
+            address: Joi.string().max(50).min(3),
+            area: Joi.string()
         })
 
         const { error } = await registerSchema.validate(req.body);
@@ -134,7 +135,7 @@ const userController = {
             return next(error);
         }
 
-        const { name, email, phone, address } = req.body;
+        const { name, email, phone, address, area } = req.body;
 
         let user;
 
@@ -143,7 +144,8 @@ const userController = {
                 name,
                 email,
                 phone,
-                address
+                address,
+                area
             }, { new: true });
 
 
@@ -163,7 +165,8 @@ const userController = {
             name: Joi.string().max(30).min(3).required(),
             email: Joi.string().email().required(),
             phone: Joi.number().required(),
-            address: Joi.string().max(50).min(3).required()
+            address: Joi.string().max(50).min(3).required(),
+            area: Joi.string().required()
         })
 
         const { error } = await registerSchema.validate(req.body);
@@ -182,13 +185,14 @@ const userController = {
             return next(err);
         }
 
-        const { name, email, phone, address } = req.body;
+        const { name, email, phone, address, area } = req.body;
 
         const user = new User({
             name,
             email,
             phone,
-            address
+            address,
+            area
         })
 
         let id;

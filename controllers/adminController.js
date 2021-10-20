@@ -28,6 +28,24 @@ const adminController = {
 
     },
 
+    // deleteing user
+    async deleteAdmin(req, res, next) {
+
+        let admin;
+        try {
+            admin = await Admin.findOneAndRemove({ _id: req.params.id });
+
+            if (!admin) {
+                return next(CustomErrorhandler.alreadyExists("nothing to delete"))
+            }
+
+        } catch (err) {
+            return next(err);
+        }
+
+        res.json(admin);
+    },
+
     async addAdmin(req, res, next) {
 
         // checking validation error
